@@ -125,15 +125,15 @@ Teams must be stored in a class, as per project specifications
 #include <vector>
 #include <string>
 #include <stdio.h>
-#include <curses.h>
+//#include <curses.h>
 #include "publisherClass.hpp"
-#include "curses.cpp"
+//#include "curses.cpp"
 
 using namespace std;
 
 int main(){
 
-   init_curses();
+   //init_curses();
 
    // drawFullscreenBorder('a');
    // refresh();

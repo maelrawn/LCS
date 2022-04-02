@@ -1,3 +1,5 @@
+//routines of functions from <ncurses>
+
 void clearScreen(){  
    for(int x = 0; x < 24; x++)
       for(int y = 0; y < 54; y++)

@@ -25,7 +25,7 @@ class Publisher{
 
 private:
 
-	vector<Book> bookVec;
+	vector<Book*> bookVec;
 
 	string publisherName; 
 		//oh my god why do public and publisher share their first 5 letters
@@ -37,7 +37,7 @@ public:
 
 	Publisher();
 
-	// Book* operator[](size_t index);
+	Book* operator[](size_t index);
 
 	Book* getBook(string trait);
 

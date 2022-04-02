@@ -3,12 +3,14 @@
 Publisher::Publisher(string name){publisherName: name;};
 
 Publisher::Publisher()
-	{bookVec: new vector<Book>;
+	{bookVec: new vector<Book*>;
 	 publisherName: "";
 	 librarySize: NULL;
 	};
 
-// Book* Publisher::operator[](size_t index);
+Book* Publisher::operator[](size_t index){
+	return this->bookVec[index];
+}
 
 Book* getBook(string trait);
 
