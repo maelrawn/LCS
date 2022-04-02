@@ -74,11 +74,10 @@ public:
 
 	void setComplete(bool in);
 
-	void writeToFile(std::ostream outFile){
-
-	}
+	void writeToFile(std::ostream outFile);
 
 };
 
+#include "bookClass.cpp"
 #endif
 
