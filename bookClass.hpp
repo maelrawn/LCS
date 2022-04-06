@@ -23,6 +23,8 @@ all for this class; it's just a really big tuple, more or less.
 #ifndef BOOK_H
 #define BOOK_H
 
+#include "bookClass.hpp"
+
 using namespace std;
 
 class Book{
@@ -74,10 +76,9 @@ public:
 
 	void setComplete(bool in);
 
-	void writeToFile(std::ostream outFile);
+	void writeToFile(ofstream *outFile);
 
 };
 
-#include "bookClass.cpp"
 #endif
 

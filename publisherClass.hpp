@@ -17,7 +17,7 @@ of books, but not much data on its own.
 #ifndef PUBL_H
 #define PUBL_H
 
-#include "bookClass.hpp"
+#include "bookClass.cpp"
 
 using namespace std;
 
@@ -25,7 +25,7 @@ class Publisher{
 
 private:
 
-	vector<Book*> bookVec;
+	vector<Book*> *bookVec;
 
 	string publisherName; 
 		//oh my god why do public and publisher share their first 5 letters
@@ -33,19 +33,26 @@ private:
 
 public:
 
+	Publisher(string name, vector<Book*> *catalog);
+
 	Publisher(string name);
 
 	Publisher();
 
 	Book* operator[](size_t index);
 
+	Book* getBookAt(int idx);
+
 	Book* getBook(string trait);
 
 	void addBook(Book* book);
 
-	void writeToFile(std::ostream outFile);
+	void writeToFile(string fileName);
+
+	void readFromFile(string fileName);
+
+	void sortCatalog();
 
 };
-#include "publisherClass.cpp"
 
 #endif

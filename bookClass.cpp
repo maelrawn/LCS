@@ -66,3 +66,12 @@ void Book::setComplete(bool in){
 	this->complete = in;
 }
 
+void Book::writeToFile(ofstream *outFile){
+	*outFile<< title 	<<"\n"
+			<< author 	<<"\n"
+			<< date 	<<"\n"
+			<< excerpt 	<<"\n"
+			<< wordCount<<"\n"
+			<< complete <<"\n";
+	outFile->flush();
+}

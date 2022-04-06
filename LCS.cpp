@@ -4,7 +4,10 @@ Monday, April 11, 2022
 6:30 PM
 Points Possible
 100
-A menu-driven program that gives the user the option to track statistics about different players on some sort of team. The program reads all the statistics from a file and stores the data for a minimum of ten players, including player’s name, player’s team, and a minimum of 5 additional statistics.
+A menu-driven program that gives the user the option to track statistics about 
+different players on some sort of team. The program reads all the statistics 
+from a file and stores the data for a minimum of ten players, including player’s 
+name, player’s team, and a minimum of 5 additional statistics.
 
 Requirements – 80% of Grade
 
@@ -126,12 +129,12 @@ Teams must be stored in a class, as per project specifications
 #include <string>
 #include <stdio.h>
 //#include <curses.h>
-#include "publisherClass.hpp"
+#include "publisherClass.cpp"
 //#include "curses.cpp"
 
 using namespace std;
 
-int main(){
+int main(int argc, char** argv){
 
    //init_curses();
 
@@ -141,6 +144,24 @@ int main(){
    // clearScreen(); uncomment this stuff when the work part is done
    // curs_set(1);
 
-   Publisher *publisher = new Publisher();
+   Publisher *publisher = new Publisher("Back Bay Books");
 
+   ifstream finput;
+   ofstream foutput;
+   string fileName = argv[1];
+   cout<<argv[1]<<'\n';
+   finput.open(fileName);
+   if(finput.is_open()){
+      cout<<"File opened!\n";
+      finput.close();
+      publisher->readFromFile(fileName);
+      Book* tmp = publisher->getBookAt(0);
+      cout<<tmp->getAuthor()<<"\n";
+   }
+   if(!finput.is_open()){
+      cout<<"Error opening file. Aborting...\n";
+      return 1;
+   }
+   finput.close();
+   return 0;
 };
