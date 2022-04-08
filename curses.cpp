@@ -16,6 +16,7 @@ void clearWorkspace(){
        for(int y = 1; y < 77; y++)
           mvaddch(x, y, ' ');
 }
+
 void drawFullscreenBorder(char graphic){
    for(int x = 0; x < 78; x++){   //Top and bottom borders
       mvaddch(0, x, graphic);
@@ -28,13 +29,25 @@ void drawFullscreenBorder(char graphic){
    }
 }
 
-void highlightOption(int option, int column){
+int calculateOffset(int maxitem, int idx){
+   if(maxitem < 9){
+      return idx;
+   }
+   else if(maxitem >= 9 && idx >= 9){
+      return 0;
+   }
+   else return idx;
+}
+
+void highlightOption(int option, int column, int maxoption){
    string icon = "->";
+   option = calculateOffset(maxoption, option);
    mvaddstr(6 + 2 * option, 2 + 15 * column, icon.c_str());
 }
 
-void clearOption(int option, int column){
+void clearOption(int option, int column, int maxoption){
    string icon = "  ";
+   option = calculateOffset(maxoption, option);
    mvaddstr(6 + 2 * option, 2 + 15 * column, icon.c_str());
 }
 
@@ -89,18 +102,17 @@ void displayBrowseBook(vector<Book*> library, int idx){
 }
 
 
-void readBook(){}
+
 void createBook(){}
 void editBook(){}
-
 int handleVertInput(int maxitem, int column){
    char input = ' ';
    int menuitem = 0;
    while(input != '`'){
-      highlightOption(menuitem, column);
+      highlightOption(menuitem, column, maxitem);
       refresh();
       input = getch();
-      clearOption(menuitem, column);
+      clearOption(menuitem, column, maxitem);
       switch(input){
          case '\n':
             return menuitem;
@@ -118,6 +130,41 @@ int handleVertInput(int maxitem, int column){
       }
    }
    return -1;
+}
+
+char handleVertInputScr(int maxitem, int column, int &menuitem){
+   char input = ' ';
+   while(input != '`'){
+      highlightOption(menuitem, column, maxitem);
+      refresh();
+      input = getch();
+      clearOption(menuitem, column, maxitem);
+      switch(input){
+         case '\n':
+            return input;
+         break;
+//creating pagination was satanic trial and error, black magic code below 
+         case 'w':
+            if(menuitem > 0 && menuitem %9 != 0){
+               menuitem--;
+            }
+            else if((menuitem%9) == 0 && menuitem != 0){
+               menuitem--;
+               return ' ';
+            }
+         break;
+         case 's':
+            if(menuitem < maxitem - 1 && menuitem %8 != 0){
+               menuitem++;
+            }
+            else if((menuitem % 8) == 0){
+               menuitem++;
+               return ' ';
+            }
+         break;
+      }
+   }
+   return '`';
 }
 
 void handleHorInput(int maxitem, int &menuitem){
@@ -155,7 +202,54 @@ void handleHorInput(int maxitem, int &menuitem){
    }
    return;
 }
-
+void displayTitles(vector<Book*> library, int idx){
+   clearWorkspace();
+   int page = idx/9;
+   for(int i = 0; i < 9 && i + page * 9 < library.size(); i++){
+      mvaddstr(6 + 2*i, 5, library.at(page * 9 + i)->getTitle().c_str());
+   }
+   refresh();
+}
+void displayExcerpt(Book* book){
+   string excerpt = book->getExcerpt();
+   vector<string> excerptLines;
+   int startpos = 0;
+   int lastVal = 0;
+   int i = 0;
+   while(excerpt.size() > 70){
+      if(excerpt[i] == ' '){
+         lastVal = i;
+      }
+      if(i == 70){
+         excerptLines.push_back(excerpt.substr(0, lastVal));
+         excerpt = excerpt.erase(0, lastVal);
+         i = 0;
+      }      
+      i++;
+   }
+   excerptLines.push_back(excerpt);
+   clearWorkspace();
+   string titlestr = book->getTitle() + " excerpt:";
+   mvaddstr(6, 5, titlestr.c_str());
+   for(int k = 0; k < excerptLines.size(); k++){
+      mvaddstr(8 + 2*k, 5, excerptLines.at(k).c_str());
+   }
+   refresh();
+   getch();
+}
+void readBook(vector<Book*> library){
+   int idx = 0;
+   char ch = ' ';
+   while(ch != '`'){
+      displayTitles(library, idx);
+      ch = handleVertInputScr(library.size(), 0, idx);
+      if(ch == '\n'){
+         displayExcerpt(library.at(idx));
+         idx = 0;
+         ch = ' ';
+      }
+   }
+}
 void browseLibrary(vector<Book*> library){
    int idx = 0;
    while(idx != -1){
@@ -177,7 +271,7 @@ void mainMenu(vector<Book*> library){
                browseLibrary(library);
                break;
             case 1:
-               readBook();
+               readBook(library);
                break;
             case 2:
                createBook();

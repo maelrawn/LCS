@@ -51,7 +51,7 @@ public:
 
 	Book();
 
-	Book operator<(Book rhs);
+	bool operator<(Book* rhs);
 
 	string getTitle();
 

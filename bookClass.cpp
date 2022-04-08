@@ -91,6 +91,13 @@ void Book::setComplete(bool in){
 	complete = in;
 }
 
+bool Book::operator<(Book* rhs){
+	if(this->author[0] < rhs->author[0])
+		return true;
+	else 
+		return false;
+}
+
 void Book::writeToFile(string filename){
 	ofstream outFile;
 	outFile.open(filename);
@@ -143,6 +150,28 @@ void populateLibrary(vector<Book*> &library, string filename){
 		}
 	}
 	inFile.close();
+}
+
+void sortByAuthorAndTitle(vector<Book*> &library){
+	Book* tmp = new Book();
+	for(int j = 0; j < 2; j++){
+		for(int i = 0; i < library.size() - 1; i++){
+			if(library.at(i)->getAuthor()[0] > library.at(i+1)->getAuthor()[0]){
+				tmp = library.at(i+1);
+				library.at(i+1) = library.at(i);
+				library.at(i) = tmp;
+				i = 0;
+			}
+			if(library.at(i)->getAuthor()[0] == library.at(i+1)->getAuthor()[0]
+				&& library.at(i)->getTitle()[0] > library.at(i)->getTitle()[0]){
+
+				tmp = library.at(i+1);
+				library.at(i+1) = library.at(i);
+				library.at(i) = tmp;
+				i = 0;
+			}
+		}
+	}
 }
 
 void searchLibrary(vector<Book*> &library, string flag){

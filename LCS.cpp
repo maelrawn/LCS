@@ -129,7 +129,6 @@ Teams must be stored in a class, as per project specifications
 #include <vector>
 #include <string>
 #include <stdio.h>
-#include <unistd.h>
 #include <curses.h>
 #include "bookClass.cpp"
 #include "curses.cpp"
@@ -141,16 +140,16 @@ int main(int argc, char** argv){
    ifstream finput;
    ofstream foutput;
    string filename = argv[1];
+   Book* book;
    vector<Book*> library;
    finput.open(filename);
    if(finput.is_open()){
       finput.close();
       populateLibrary(library, filename);
+      sortByAuthorAndTitle(library);
       drawFullscreenBorder('X');
       drawHeader();
       mainMenu(library);
-      highlightOption(0, 0);
-      refresh();
       finput.close();
       return 0;
    }
