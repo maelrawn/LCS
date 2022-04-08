@@ -28,10 +28,10 @@ Main CPP
 Class Header
 Class CPP
 All work and procedures to completed in Member Functions
-Comment all code*/
+Comment all code/
 
 
-/*PROJECT GOALS:
+/PROJECT GOALS:
 
 Real-time TUI
 Navigable menus:
@@ -62,7 +62,7 @@ Professor said I can use ncurses. Project screen mockup:
 #                           |                                                #
 #   Browse Entire Library   |   Kodansha Press                               #
 #                           |                                                #
-# ->Browse By Publisher     | ->Penguin Random House                         #
+# .Browse By Publisher     | .Penguin Random House                         #
 #                           |                                                #
 #   Search For Title        |   ...                                          #
 #                           |                                                #
@@ -86,9 +86,9 @@ Professor said I can use ncurses. Project screen mockup:
 #                                    |                                       #
 #----------------------------------------------------------------------------#
 #                           |                                                #
-#   Browse Entire Library   |  --> Kodansha Press <--                        #
+#   Browse Entire Library   |  -. Kodansha Press <--                        #
 #                           |                                                #
-# ->Browse By Publisher     |     book1                                      #
+# .Browse By Publisher     |     book1                                      #
 #                           |                                                #
 #   Search For Title        |     book2                                      #
 #                           |                                                #
@@ -125,43 +125,34 @@ Teams must be stored in a class, as per project specifications
 
 #include <iostream>
 #include <fstream>
+#include <ostream>
 #include <vector>
 #include <string>
 #include <stdio.h>
-//#include <curses.h>
-#include "publisherClass.cpp"
-//#include "curses.cpp"
+#include <unistd.h>
+#include <curses.h>
+#include "bookClass.cpp"
+#include "curses.cpp"
 
 using namespace std;
 
 int main(int argc, char** argv){
-
-   //init_curses();
-
-   // drawFullscreenBorder('a');
-   // refresh();
-   // sleep(3);
-   // clearScreen(); uncomment this stuff when the work part is done
-   // curs_set(1);
-
-   Publisher *publisher = new Publisher("Back Bay Books");
-
+   init_curses();
    ifstream finput;
    ofstream foutput;
-   string fileName = argv[1];
-   cout<<argv[1]<<'\n';
-   finput.open(fileName);
+   string filename = argv[1];
+   vector<Book*> library;
+   finput.open(filename);
    if(finput.is_open()){
-      cout<<"File opened!\n";
       finput.close();
-      publisher->readFromFile(fileName);
-      Book* tmp = publisher->getBookAt(0);
-      cout<<tmp->getAuthor()<<"\n";
+      populateLibrary(library, filename);
+      drawFullscreenBorder('X');
+      drawHeader();
+      mainMenu(library);
+      highlightOption(0, 0);
+      refresh();
+      finput.close();
+      return 0;
    }
-   if(!finput.is_open()){
-      cout<<"Error opening file. Aborting...\n";
-      return 1;
-   }
-   finput.close();
-   return 0;
+  return 1;
 };

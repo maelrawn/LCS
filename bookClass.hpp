@@ -13,7 +13,7 @@ Reading Time (derived from word count)
 Completed? (bool, default 0 so user can set)
 
 Note that all the stuff that needs to be strings 
-must be in format const char* because ncurses functions
+must be in format const char because ncurses functions
 will not display them otherwise. This can be accomplished with
 the function .c_str(), an inclusion from <string>. I think that's
 all for this class; it's just a really big tuple, more or less.
@@ -35,9 +35,10 @@ private:
 	string author;
 	string date;
 	string excerpt;
+	string publisher;
 
 	int wordCount;
-	int ReadingTime; //stored in seconds and converted before display
+	int readingTime; //stored in minutes 
 	int pages;
 
 	bool complete;
@@ -45,12 +46,12 @@ private:
 public:
 
 	Book(string title, string author, 
-		 string date, string excerpt,
-  	  	 int wordCount, bool complete);
+		 string date, string excerpt, string publisher,
+  	  	 int pageCount, bool complete);
 
 	Book();
 
-	Book* operator<(Book* rhs);
+	Book operator<(Book rhs);
 
 	string getTitle();
 
@@ -68,15 +69,23 @@ public:
 
 	void setExcerpt(string in);
 
+	string getPublisher();
+
+	void setPublisher(string in);
+
+	int getPageCount();
+
+	void setPageCount(int in);
+
 	int getWordCount();
 
-	void setWordCount(int in);
+	int getReadingTime();
 
-	bool isComplete();
+	string isComplete();
 
 	void setComplete(bool in);
 
-	void writeToFile(ofstream *outFile);
+	void writeToFile(string filename);
 
 };
 
