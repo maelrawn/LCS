@@ -20,6 +20,8 @@ all for this class; it's just a really big tuple, more or less.
 
 */
 
+//Cool to see how the above comment differs from the resulting program
+
 #ifndef BOOK_H
 #define BOOK_H
 

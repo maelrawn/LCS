@@ -68,3 +68,10 @@ Love is so uncool! Death by masturbation is the only way!
 Viz Media Graphic Novels
 1400
 1
+Project Thoughts
+James DeLaura
+04/8/2022
+This project took a long time because of some very strange errors. Linker errors with <curses.h>, compiler error messages being vague and sometimes actively detrimental, and also just a bigger thing to do than I had realized. I noticed an improvement with simple routine design, like the pattern of loading a vector and working with those strings in an algorithmic way, instead of manually writing out dozens of separate string lines. Also significant improvement in reading abstract, arcane, or misleading error messages. Good stuff!
+Independent
+2
+1

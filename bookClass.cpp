@@ -2,6 +2,10 @@
 
 using namespace std;
 
+//I originally messed up the syntax for the contructor initializer list
+//and g++ interpreted it as a series of gotos. By fixing it the way the
+//compiler told me to, I wound up making a constructor that was incapable
+//of making a book object. I spent days trying to fix this!
 Book::Book(string title, string author, 
 	 	   string date, string excerpt, string publisher,
 	  	   int pages, bool complete):
@@ -34,7 +38,7 @@ string Book::getAuthor(){
 }
 
 void Book::setAuthor(string in){
-	title = in;
+	author = in;
 	return;
 }
 
@@ -91,6 +95,8 @@ void Book::setComplete(bool in){
 	complete = in;
 }
 
+//I wanted to use this to sort the vector but sort(v.begin, v.end, ::sort)
+//would have taken too long to get working
 bool Book::operator<(Book* rhs){
 	if(this->author[0] < rhs->author[0])
 		return true;
@@ -98,21 +104,27 @@ bool Book::operator<(Book* rhs){
 		return false;
 }
 
+//ios_base::app lets us append to our file instead of overwriting,
+//so we can use a member function (otherwise the repeated open/close
+//would continuously overwrite one another. I also tried this with a
+//ofstream *ostream, but was getting a 'bus error.' Ok, c++.)
 void Book::writeToFile(string filename){
 	ofstream outFile;
-	outFile.open(filename);
+	outFile.open(filename, ios_base::app);
 	if(outFile.is_open()){
 		outFile << title 	<<"\n"
 				<< author 	<<"\n"
 				<< date 	<<"\n"
 				<< excerpt 	<<"\n"
-				<< wordCount<<"\n"
-				<< complete <<"\n"
-				<< publisher<<"\n";
+				<< publisher<<"\n"
+				<< pages	<<"\n"
+				<< complete <<"\n";
 	}
 	outFile.flush();
 }
 
+//Used to output human-readable times in displayBrowseBook().
+//This could be a member function.
 string as_dhm(int readingTime){
 	int days = 0;
 	int hours = 0;
@@ -131,6 +143,7 @@ string as_dhm(int readingTime){
 	return "Days: "+dayss+", Hours: "+hourss+", Minutes: "+minutess;
 }
 
+//Reads from our input file
 void populateLibrary(vector<Book*> &library, string filename){
 	ifstream inFile;
 	string tmp;
@@ -152,6 +165,7 @@ void populateLibrary(vector<Book*> &library, string filename){
 	inFile.close();
 }
 
+//Sorts books by author, and sorts books grouped by author by title
 void sortByAuthorAndTitle(vector<Book*> &library){
 	Book* tmp = new Book();
 	for(int j = 0; j < 2; j++){
@@ -172,8 +186,4 @@ void sortByAuthorAndTitle(vector<Book*> &library){
 			}
 		}
 	}
-}
-
-void searchLibrary(vector<Book*> &library, string flag){
-
 }
