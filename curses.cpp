@@ -332,7 +332,9 @@ bool stob(string in){
 //Creates a new book with user input and puts it into our library
 void createBook(vector<Book*> &library){
    vector<string> bookData;
+   string label = "Create Book";
    displayCreateLabels();
+   mvaddstr(5, 33, label.c_str());
    for(int i = 0; i < 7; i++){
       highlightOption(i, 0, i);
       bookData.push_back(handleTextIn(1, i));
@@ -450,15 +452,17 @@ void saveQuit(vector<Book*> library){
 
 //Routine to collect all of the functionality we have built
 void mainMenu(vector<Book*> &library){
-   int option = 0;
+   int option = 3;
    while(option != -1){
       clearWorkspace();
       drawFullscreenBorder('X');
       drawHeader();
       displayMainMenuOptions();
       refresh();
-      sortByAuthorAndTitle(library);
-      option = handleVertInput(7, 0);
+      if(library.size() > 0){
+         option = handleVertInput(7, 0);
+         sortByAuthorAndTitle(library);
+      }
       switch(option){
             case -1:
                break;

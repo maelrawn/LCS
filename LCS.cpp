@@ -12,6 +12,10 @@
 using namespace std;
 
 int main(int argc, char** argv){
+   if(argc == 1){
+      cout<<"Program must be called with an argument for file path.";
+      return 1;
+   }
    string filename = argv[1];
    vector<Book*> library;
    init_curses();
