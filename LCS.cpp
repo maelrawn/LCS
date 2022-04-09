@@ -6,6 +6,7 @@
 #include <cctype>
 #include <stdio.h>
 #include <curses.h>
+#include <regex>
 #include "bookClass.cpp"
 #include "curses.cpp"
 

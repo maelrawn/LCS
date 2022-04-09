@@ -104,7 +104,7 @@ void displayCreateLabels(){
    menuitems.push_back("Author:");
    menuitems.push_back("Date:");
    menuitems.push_back("Publisher:");
-   menuitems.push_back("Page Count (int):");
+   menuitems.push_back("Page Count:");
    menuitems.push_back("Completed?");
    menuitems.push_back("Excerpt:");
    for(int i = 0; i < menuitems.size(); i++){
@@ -293,6 +293,29 @@ string handleTextIn(int column, int row){
    return str;
 }
 
+//I was getting a crash on stoi(string-with-nonnumeric character input),
+//so I wanted to take that out. This does it by only permitting numeric
+//characters to be entered.
+string handleNumericIn(int column, int row){
+   string expr = "[0-9]";
+   regex regex (expr);
+   char ch = ' ';
+   string chstr = " ";
+   int i = -1;
+   string str;
+   while(ch != '\n'){
+      ch = getch();
+      chstr = ch;
+      if(ch != '\n' && regex_match(chstr, regex)){
+         i++;
+         mvaddch(6 + 2 * row, i+  MAXY * column, ch);
+         str.push_back(ch);
+      }
+      refresh();
+   }
+   return str;
+}
+
 //Routine for selecting and displaying chunks of text
 void readBook(vector<Book*> library){
    int idx = 0;
@@ -337,7 +360,12 @@ void createBook(vector<Book*> &library){
    mvaddstr(5, 33, label.c_str());
    for(int i = 0; i < 7; i++){
       highlightOption(i, 0, i);
-      bookData.push_back(handleTextIn(1, i));
+      if(i != 4){
+         bookData.push_back(handleTextIn(1, i));
+      }
+      else{
+         bookData.push_back(handleNumericIn(1, i));
+      }
       drawFullscreenBorder('X');
    }
    Book* book = new Book(  bookData[0],
@@ -378,7 +406,7 @@ void editBook(vector<Book*> &library){
                break;
             case 4:
                library.at(idx)->setPageCount(
-                                 stoi(handleTextIn(1, option)));
+                                 stoi(handleNumericIn(1, option)));
                break;
             case 5:
                library.at(idx)->setComplete(

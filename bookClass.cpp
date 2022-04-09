@@ -74,6 +74,8 @@ int Book::getWordCount(){
 
 void Book::setPageCount(int in){
 	pages = in;
+	wordCount = pages * 300;
+	readingTime = wordCount/240;
 	return;
 }
 
