@@ -1,3 +1,5 @@
+Compile with -lncurses flag.
+
 USAGE:
 
 ./lcs [filename]
