@@ -1,70 +1,30 @@
+Video demo at https://streamable.com/1dswuq
+
 compile with g++ -lncurses
 
 USAGE:
 
 ./lcs [filename]
 
-/*
-This is originally how I had set up my first file, to get my thoughts
-straight. It is saved here for posterity.
-*/
+LCS (Library Cataloguing Software) was a project for CSC211. 
 
-
-/*ASSIGNMENT INFORMATION
-Due Date
-Monday, April 11, 2022
-6:30 PM
-Points Possible
-100
-A menu-driven program that gives the user the option to track statistics about 
-different players on some sort of team. The program reads all the statistics 
-from a file and stores the data for a minimum of ten players, including player’s 
-name, player’s team, and a minimum of 5 additional statistics.
-
-Requirements – 80% of Grade
-
-Menu driven program that loops after each selection until user chooses to exit
-Read initial data in from a file
-Minimum of 10 Players
-Players Name, Team, and minimum of 5 additional statistics
-Use Class to store the data from the file
-Menu Options:
-Print out all users and statistics
-Print out the statistics for a specific player
-Print out all data for a specific team
-Update the data for a specific player
-Let the users Insert a new player and their statistics
-Let the user export the data to an output file
-Organized in 3 files:
-Main CPP
-Class Header
-Class CPP
-All work and procedures to completed in Member Functions
-Comment all code/
-
-
-/PROJECT GOALS:
-
-Real-time TUI
-Navigable menus:
+In this project, I:
    
-   - team select
-      - save/load
-   - display stats
-   - edit players
-   - quit
-
-Have to ask professor if we are allowed to use external packages,
-I would like to use ncurses to do this but I can use unicode chars
-to simulate flashing menu options otherwise. Probably can simulate
-real time graphics by printing a screen of text at a time? Problem
-becomes not printing one line at a time without the ability to blit,
-but I could probably just create one gigantic 80x24 monster string 
-and print the entire thing at once? Alternatively, find some way to 
-pause the terminal refresh until printing is done (wow I just
-am describing ncurses or analogues).
-
-Professor said I can use ncurses. Project screen mockup:
+   - Learned basic file I/O and text processing
+   
+   - Overcomplicated things by a factor of 10 by choosing to roll my own TUI. This required me to:
+   
+      -  Figure out scalable menus,
+      
+      -  Implement text wrapping,
+      
+      -  Implement all user-UI interaction logic for all contexts
+      
+      -  Implement real-time text drawing (backspacing was a pain)
+      
+   I just think TUI programs are really cool and like doing stuff from scratch, hence the beyond-scope-of-assignment project.
+   
+   Project screen mockup:
 
 ##############################################################################
 #                                    |                                       #
@@ -74,7 +34,7 @@ Professor said I can use ncurses. Project screen mockup:
 #                           |                                                #
 #   Browse Entire Library   |   Kodansha Press                               #
 #                           |                                                #
-# .Browse By Publisher     | .Penguin Random House                         #
+# .Browse By Publisher      | .Penguin Random House                          #
 #                           |                                                #
 #   Search For Title        |   ...                                          #
 #                           |                                                #
@@ -98,9 +58,9 @@ Professor said I can use ncurses. Project screen mockup:
 #                                    |                                       #
 #----------------------------------------------------------------------------#
 #                           |                                                #
-#   Browse Entire Library   |  -. Kodansha Press <--                        #
+#   Browse Entire Library   |  -. Kodansha Press <--                         #
 #                           |                                                #
-# .Browse By Publisher     |     book1                                      #
+# .Browse By Publisher      |     book1                                      #
 #                           |                                                #
 #   Search For Title        |     book2                                      #
 #                           |                                                #
@@ -117,20 +77,5 @@ Professor said I can use ncurses. Project screen mockup:
 #                                                                            #
 #                                                                            #
 ##############################################################################
-
-Teams must be stored in a class, as per project specifications
-
-   Class should have:
-   Publisher info (stats), playersVec (class)
-
-   setter/getter methods
-   methods for adding/removing players from the vector
-   methods for writing/instantiating to/from file
-
-   Players class should have:
-   lots of stats
-   setter/getter methods
-
-   Remember to use #IFNDEFS and hpp/cpp structure
 
 */
