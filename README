@@ -1,4 +1,4 @@
-compile with -lncurses flag
+compile with g++ -lncurses
 
 USAGE:
 
